@@ -1,12 +1,7 @@
 [
     {
-        "name": "Shrimp",
-        "team": "NOPE",
-        "test": 12034
-    },
-    {
-        "name": "ASD",
-        "team": "abasd",
-        "test": 5152034
+        "input1": "Fire",
+        "input2": "Water",
+        "output": "Gas"
     }
 ]
