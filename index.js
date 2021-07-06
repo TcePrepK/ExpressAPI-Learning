@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 const data = require("./data.json");
-cons
 let port = process.env.PORT || 3000;
 
 app.get("/", (req, res) => {
