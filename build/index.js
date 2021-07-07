@@ -1,17 +1,21 @@
 "use strict";
-var express = require("express");
-var app = express();
-var data = require("../data.json");
-var port = process.env.PORT || 3000;
-app.get("/", function (req, res) {
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const app = express_1.default();
+// const data = require("./data.json");
+const port = process.env.PORT || 3000;
+app.get("/", (req, res) => {
     res.send("Hello World");
 });
-app.get("/players", function (req, res) {
-    res.send(data);
+app.get("/players", (req, res) => {
+    res.send("asd");
 });
-app.post("/hello", function (req, res) {
-    res.send(data);
+app.listen(port, () => {
+    console.log(`Example app is listening on port http://localhost:${port}`);
 });
-app.listen(port, function () {
-    console.log("Example app is listening on port http://localhost:" + port);
+app.get("/", (req, res) => {
+    res.send("The sedulous hyena ate the antelope!");
 });
