@@ -1,9 +1,9 @@
-import express, { Application, json, request, Request, Response } from "express";
+import express, { Application, Request, Response } from "express";
 import dataStore from "nedb";
 import bodyParser from "body-parser";
 import path from "path";
 import fs from "fs";
-import fetch from "node-fetch";
+import { addRecipeRequest, operateRecipeRequest } from "./operations";
 
 const app: Application = express();
 const port: number = Number(process.env.PORT) || 3000;
@@ -31,8 +31,20 @@ app.get("/", (req: Request, res: Response) => {
     res.sendFile(path.resolve("static/index.html"));
 });
 
+app.get("/requests", (req: Request, res: Response) => {
+    requests.find({}, (err: Error, data: RecipeRequest) => {
+        res.json(data);
+    });
+});
+
+app.get("/recipes", (req: Request, res: Response) => {
+    recipes.find({}, (err: Error, data: RecipeRequest) => {
+        res.json(data);
+    });
+});
+
 // POSTS
-app.post("/recipeOperations", (req: Request, res: Response) => {
+app.post("/operateRecipeRequest", (req: Request, res: Response) => {
     const data: OperationRequest = req.body;
     if (token !== data.token) {
         res.send("Incorrect token");
@@ -66,28 +78,16 @@ app.post("/recipeOperations", (req: Request, res: Response) => {
     });
 });
 
-function recipeOperations(token: string, operation: boolean, id: string) {
-    fetch("http://localhost:3000/recipeOperations", {
-        method: "POST",
-        body: JSON.stringify({ token, operation, id }), // The data
-        headers: {
-            "Content-Type": "application/json", // The type of data you're sending
-        },
-    })
-        .then(res => {
-            if (res.status !== 200) {
-                throw "bad-status: " + res.status + " / " + res.statusText;
-            }
+app.post("/addRecipeRequest", (req: Request, res: Response) => {
+    const data: RecipeRequest = req.body;
 
-            return res.text();
-        })
-        .then(result => {
-            console.log(result);
-        });
-    // .catch(err => {
-    //     // handle error
-    //     console.error(err);
-    // });
-}
+    requests.insert(data);
+    res.send("Recipe succesfully added to requests");
+});
 
-recipeOperations("RandomTokenForNow", true, "muzZTUM0EZZFhMtA");
+// const fire: Element = { color: "#ff0000", name: "Fire" };
+// const water: Element = { color: "#0000ff", name: "Water" };
+// const gas: Element = { color: "#ff00ff", name: "Gas" };
+
+// addRecipeRequest(fire, water, gas);
+// operateRecipeRequest("RandomTokenForNow", true, "4NIytFEHsMDuJCY1");

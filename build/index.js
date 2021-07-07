@@ -8,7 +8,6 @@ const nedb_1 = __importDefault(require("nedb"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
-const node_fetch_1 = __importDefault(require("node-fetch"));
 const app = express_1.default();
 const port = Number(process.env.PORT) || 3000;
 const token = fs_1.default.readFileSync(path_1.default.resolve("token.txt")).toString();
@@ -29,8 +28,18 @@ requests.loadDatabase();
 app.get("/", (req, res) => {
     res.sendFile(path_1.default.resolve("static/index.html"));
 });
+app.get("/requests", (req, res) => {
+    requests.find({}, (err, data) => {
+        res.json(data);
+    });
+});
+app.get("/recipes", (req, res) => {
+    recipes.find({}, (err, data) => {
+        res.json(data);
+    });
+});
 // POSTS
-app.post("/addRecipe", (req, res) => {
+app.post("/operateRecipeRequest", (req, res) => {
     const data = req.body;
     if (token !== data.token) {
         res.send("Incorrect token");
@@ -58,26 +67,13 @@ app.post("/addRecipe", (req, res) => {
         requests.persistence.compactDatafile();
     });
 });
-function recipeOperation(token, operation, id) {
-    node_fetch_1.default("http://localhost:3000/addRecipe", {
-        method: "POST",
-        body: JSON.stringify({ token, operation, id }),
-        headers: {
-            "Content-Type": "application/json", // The type of data you're sending
-        },
-    })
-        .then(res => {
-        if (res.status !== 200) {
-            throw "bad-status: " + res.status + " / " + res.statusText;
-        }
-        return res.text();
-    })
-        .then(result => {
-        console.log(result);
-    });
-    // .catch(err => {
-    //     // handle error
-    //     console.error(err);
-    // });
-}
-recipeOperation("RandomTokenForNow", true, "muzZTUM0EZZFhMtA");
+app.post("/addRecipeRequest", (req, res) => {
+    const data = req.body;
+    requests.insert(data);
+    res.send("Recipe succesfully added to requests");
+});
+// const fire: Element = { color: "#ff0000", name: "Fire" };
+// const water: Element = { color: "#0000ff", name: "Water" };
+// const gas: Element = { color: "#ff00ff", name: "Gas" };
+// addRecipeRequest(fire, water, gas);
+// operateRecipeRequest("RandomTokenForNow", true, "4NIytFEHsMDuJCY1");

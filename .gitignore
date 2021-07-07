@@ -1,3 +1,5 @@
 node_modules/
 build/
 token.txt
+requests.db
+recipes.db

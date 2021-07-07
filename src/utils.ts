@@ -10,9 +10,9 @@ interface Recipe {
 }
 
 interface RecipeRequest {
-    in1: Element;
-    in2: Element;
-    out1: Element;
+    input1: string;
+    input2: string;
+    output: string;
 }
 
 interface ElementRequest {
@@ -23,5 +23,5 @@ interface ElementRequest {
 interface OperationRequest {
     token: string;
     operation: boolean;
-    id: number;
+    id: string;
 }
