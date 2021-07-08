@@ -3,6 +3,7 @@ import dataStore from "nedb";
 import bodyParser from "body-parser";
 import path from "path";
 import fs from "fs";
+import { ElementRequest, OperationRequest, RecipeRequest } from "./utils";
 
 const app: Application = express();
 const port: number = Number(process.env.PORT) || 3000;

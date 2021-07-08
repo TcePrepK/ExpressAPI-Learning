@@ -1,26 +1,26 @@
-interface Element {
+export interface Element {
     name: string;
     color: string;
 }
 
-interface Recipe {
+export interface Recipe {
     in1: Element;
     in2: Element;
     out1: Element;
 }
 
-interface RecipeRequest {
+export interface RecipeRequest {
     input1: string;
     input2: string;
     output: string;
 }
 
-interface ElementRequest {
+export interface ElementRequest {
     name: string;
     color: string;
 }
 
-interface OperationRequest {
+export interface OperationRequest {
     token: string;
     operation: boolean;
     id: string;

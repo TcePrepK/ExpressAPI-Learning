@@ -1,4 +1,5 @@
 import fetch from "node-fetch";
+import { OperationRequest, RecipeRequest } from "./src/utils";
 
 export function fetchFunction(path: string, request: OperationRequest | RecipeRequest): void {
     fetch("http://localhost:3000/" + path, {
